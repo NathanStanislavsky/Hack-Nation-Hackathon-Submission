@@ -28,9 +28,14 @@ class BrainWaveIntentDataset(IterableDataset):
     
     def _preprocess(self, feature_eeg, feature_moments, label):
         
-        feature_eeg = torch.nan_to_num(torch.tensor(feature_eeg), nan=0.0)
+        feature_eeg = torch.tensor(feature_eeg)
+        feature_eeg = torch.nan_to_num(feature_eeg, nan=0.0)
+        feature_eeg = torch.clamp(feature_eeg, -100000, 300000)
+
         feature_moments = torch.tensor(feature_moments)
-        
+        feature_moments[:, :, :, :, 1] = torch.clamp(feature_moments[:, :, :, :, 1], 1750, 3250)
+        feature_moments[:, :, :, :, 2] = torch.clamp(feature_moments[:, :, :, :, 2], 75000, 300000)
+
         return {
             "feature_eeg": feature_eeg,
             "feature_moments": feature_moments,
