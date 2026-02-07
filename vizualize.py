@@ -29,18 +29,16 @@ for i, batch in enumerate(dl):
     # --- Collect Moments (Split by type) ---
     # Shape is (Batch, Time, Mods, SDS, Wave, 3)
     # We slice the last dimension [..., i]
-    moments = batch["feature_moments"]
-    
     # Index 0: Intensity
-    m0 = moments[..., 0].flatten().cpu().numpy()
+    m0 = batch["feature_m0"].flatten().cpu().numpy()
     moments_0_all.append(m0)
     
     # Index 1: Mean ToF
-    m1 = moments[..., 1].flatten().cpu().numpy()
+    m1 = batch["feature_m1"].flatten().cpu().numpy()
     moments_1_all.append(m1)
     
     # Index 2: Variance
-    m2 = moments[..., 2].flatten().cpu().numpy()
+    m2 = batch["feature_m2"].flatten().cpu().numpy()
     moments_2_all.append(m2)
     
     if i % 10 == 0:

@@ -36,16 +36,17 @@ class BrainWaveIntentDataset(IterableDataset):
         feature_eeg = normalize_to_range(feature_eeg, -100000, 300000)
 
         feature_moments = torch.tensor(feature_moments)
-        feature_moments[:, :, :, :, 0] = normalize_to_range(feature_moments[:, :, :, :, 0], 0, 8)
-        feature_moments[:, :, :, :, 1] = normalize_to_range(feature_moments[:, :, :, :, 1], 1750, 3250)
-        feature_moments[:, :, :, :, 2] = normalize_to_range(feature_moments[:, :, :, :, 2], 75000, 300000)
+        feature_m0 = normalize_to_range(feature_moments[:, :, :, :, 0], 0, 8)
+        feature_m1 = normalize_to_range(feature_moments[:, :, :, :, 1], 1750, 3250)
+        feature_m2 = normalize_to_range(feature_moments[:, :, :, :, 2], 75000, 300000)
 
         return {
             "feature_eeg": feature_eeg,
-            "feature_moments": feature_moments,
+            "feature_m0": feature_m0,
+            "feature_m1": feature_m1,
+            "feature_m2": feature_m2,
             "label": label
         }
-        
 
 def _download_and_flatten(local_dir):
     print(f"⬇️  Downloading {REPO_ID} to {local_dir}...")
