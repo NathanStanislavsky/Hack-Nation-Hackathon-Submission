@@ -28,8 +28,8 @@ def save_individual_histograms(dataset, base_dir="./histograms", num_samples=100
 
     # Shape: [Total_Time_Steps, 6]
     eeg_data = torch.cat(all_eeg, dim=0) 
-    # Shape: [Total_Samples, 216]
-    moment_data = torch.cat(all_moments, dim=0).view(-1, 216)
+    # Shape: [Total_Samples, 720]
+    moment_data = torch.cat(all_moments, dim=0)
 
     # --- 1. Save EEG Plots ---
     print(f"📊 Generating 6 EEG histograms...")
@@ -48,8 +48,8 @@ def save_individual_histograms(dataset, base_dir="./histograms", num_samples=100
         plt.close()
 
     # --- 2. Save Moment Plots ---
-    print(f"📊 Generating 216 Moment histograms...")
-    for i in tqdm(range(216)):
+    print(f"📊 Generating Moment histograms...")
+    for i in tqdm(range(moment_data.size(1))):
         feat_data = moment_data[:, i].numpy().flatten()
         
         # Optional: Skip plotting if the channel is entirely empty/constant
